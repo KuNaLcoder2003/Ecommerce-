@@ -4,10 +4,13 @@ const dotenv = require('dotenv');
 const {Users , Orders , Products , Reviews , Ratings} = require('../db');
 const {signup_schema , signin_schema} = require('../types')
 const jwt = require('jsonwebtoken');
+const sendEmail = require('../functions/sendEmail')
 
 dotenv.config();
 
 const key = `${process.env.JWT_SECRET}`
+
+
 
 
 
@@ -19,7 +22,7 @@ router.post('/signup' , async(req , res)=>{
             last_name,
             username,
             password,
-            role
+            role,
         })
         if (!success){
             return res.status(402).json({
@@ -30,10 +33,13 @@ router.post('/signup' , async(req , res)=>{
             first_name,
             last_name,
             username,
-            password
+            password,
+            role,
         })
 
         await user.save()
+
+        sendEmail(username).catch(console.error);
     
 
         const token = jwt.sign({userId :user._id , name : `${user.first_name} ${user.last_name}` , role : user.role } , key)
