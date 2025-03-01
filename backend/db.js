@@ -57,7 +57,9 @@ const Products_Schema = new mongoose.Schema({
         required : true
     },
     product_images : [{
-        type : String
+        url : {
+            type  : String
+        }
     }]
 },{timestamps : true})
 
