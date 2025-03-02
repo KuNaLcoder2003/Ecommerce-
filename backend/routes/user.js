@@ -7,12 +7,7 @@ const jwt = require('jsonwebtoken');
 const sendEmail = require('../functions/sendEmail')
 
 dotenv.config();
-
 const key = `${process.env.JWT_SECRET}`
-
-
-
-
 
 router.post('/signup' , async(req , res)=>{
     const {first_name , last_name , username , password , role} = req.body;
@@ -29,7 +24,13 @@ router.post('/signup' , async(req , res)=>{
                 message : 'Invalid Inputs'
             })
         }
-        const user = new Users({
+        const user = await Users.findOne({username : username})
+        if(user){
+            return res.status(403).json({
+                message : 'User already exists , try signing in'
+            })
+        }
+        const new_user = new Users({
             first_name,
             last_name,
             username,
@@ -37,12 +38,12 @@ router.post('/signup' , async(req , res)=>{
             role,
         })
 
-        await user.save()
+        await new_user.save()
 
         sendEmail(username).catch(console.error);
     
 
-        const token = jwt.sign({userId :user._id , name : `${user.first_name} ${user.last_name}` , role : user.role } , key)
+        const token = jwt.sign({userId :new_user._id , name : `${new_user.first_name} ${new_user.last_name}` , role : new_user.role } , key)
         res.status(200).json({
             token,
             message : 'SignedUp successfully'
