@@ -59,6 +59,10 @@ const Products_Schema = new mongoose.Schema({
     product_images : [{
         url : {
             type  : String
+        },
+        public_id : {
+            type : String,
+            required : true
         }
     }]
 },{timestamps : true})
