@@ -121,15 +121,38 @@ const Order_Schema = new mongoose.Schema({
     payment_status : {
         type : Boolean,
         required : true
-    }
+    } , 
+    // cart_id : {
+    //     type : mongoose.Schema.Types.ObjectId,
+    //     required : true
+    // }
 
 },{timestamps : true})
+
+const Cart_Schema = new mongoose.Schema({
+    items : [{
+        id : {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'ecomm_products_table',
+            required : true,
+        },
+        quantity : {
+            type : Number,
+            required : true
+        }
+    }],
+    userId : {
+        type : mongoose.Schema.Types.ObjectId,
+        required : true
+    }
+})
 
 const Users = mongoose.model('ecomm_users_table' , User_Schema);
 const Products = mongoose.model('ecomm_products_table' , Products_Schema);
 const Reviews = mongoose.model('ecomm_reviews_table' , Review_Schema);
 const Ratings = mongoose.model('ecomm_ratings_table' , Rating_Schema);
 const Orders = mongoose.model('ecomm_orders_table' , Order_Schema);
+const Carts = mongoose.model('ecomm_carts_table' , Cart_Schema)
 
 module.exports = {
     Users,
@@ -137,4 +160,5 @@ module.exports = {
     Reviews,
     Ratings,
     Orders,
+    Carts
 }
