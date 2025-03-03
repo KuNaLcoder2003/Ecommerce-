@@ -3,7 +3,7 @@ const isAdmin = require('../middlewares/isAdmin')
 const authMiddleware = require('../middlewares/auth')
 const { products_schema } = require('../types')
 const router = express.Router();
-const { Users, Products } = require('../db')
+const {  Products } = require('../db')
 const { uploadImages, deleteImages } = require('../functions/cloudinary')
 
 router.post('/', async (req, res) => {
@@ -115,7 +115,6 @@ router.delete('/:productId', async (req, res) => {
             })
         }
         const results = await deleteImages(product.product_images)
-        // console.log(results);
         if (results.length == 0) {
             return res.status(402).json({
                 message: 'Error deleting product'
