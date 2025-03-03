@@ -8,6 +8,8 @@ cloudinary.config({
     api_secret: `${process.env.API_SECRET}`,
 })
 
+// promise -> resolve or reject 
+
 const uploadImages = async (urls , product_name) => {
     try {
         
@@ -33,15 +35,13 @@ const uploadImages = async (urls , product_name) => {
 const deleteImages = async(urls)=>{
     try {
         const result = await Promise.all(
-            urls.map(async(obj , index)=>{
+            urls.map(async(obj)=>{
                 try {
                     const result = await cloudinary.uploader.destroy(obj.public_id)
-                    console.log(result)
                     return result;
                 } catch (error) {
                     console.log(error)
                     return null
-                    
                 }
             })
         )
