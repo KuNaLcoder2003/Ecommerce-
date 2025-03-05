@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const dotenv = require('dotenv');
+const { checkout } = require('./routes/Cart');
 
 dotenv.config();
 
@@ -32,7 +33,23 @@ const User_Schema = new mongoose.Schema({
     role : {
         type :String,
         required : true
-    }
+    } , 
+    carts : [{
+        cartId : {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'ecomm_carts_table'
+        },
+        checkout : {
+            type : Boolean,
+            required : true
+        }
+    }],
+    orders : [{
+        id : {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'ecomm_orders_table'
+        }
+    }]
 },{timestamps : true})
 
 const Products_Schema = new mongoose.Schema({
@@ -119,13 +136,14 @@ const Order_Schema = new mongoose.Schema({
     },
 
     payment_status : {
-        type : Boolean,
+        type : String,
         required : true
     } , 
-    // cart_id : {
-    //     type : mongoose.Schema.Types.ObjectId,
-    //     required : true
-    // }
+    cart_id : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref :'ecomm_carts_table' ,
+        required : true,
+    }
 
 },{timestamps : true})
 
@@ -143,7 +161,12 @@ const Cart_Schema = new mongoose.Schema({
     }],
     userId : {
         type : mongoose.Schema.Types.ObjectId,
-        required : true
+        ref : 'ecomm_users_table',
+        required : true,
+
+    } , 
+    checked_out : {
+        type : Boolean,
     }
 })
 
