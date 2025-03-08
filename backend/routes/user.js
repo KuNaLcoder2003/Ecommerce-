@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router();
 const dotenv = require('dotenv');
-const {Users , Orders , Products , Reviews , Ratings} = require('../db');
+const {Users } = require('../db');
 const {signup_schema , signin_schema} = require('../types')
 const jwt = require('jsonwebtoken');
 const sendEmail = require('../functions/sendEmail')
@@ -36,6 +36,7 @@ router.post('/signup' , async(req , res)=>{
             username,
             password,
             role,
+            balance : Math.floor(Math.random()*10000)
         })
 
         await new_user.save()
