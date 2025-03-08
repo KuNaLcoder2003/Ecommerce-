@@ -4,9 +4,7 @@ const { Products, Carts, Orders, Users } = require('../db');
 const { default: mongoose } = require('mongoose');
 const router = express.Router();
 
-router.get('/available', authMiddleware, async (req, res) => {
 
-})
 
 router.post('/', async (req, res) => {
     const { cartId } = req.body
