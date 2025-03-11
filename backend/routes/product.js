@@ -3,8 +3,9 @@ const isAdmin = require('../middlewares/isAdmin')
 const authMiddleware = require('../middlewares/auth')
 const { products_schema } = require('../types')
 const router = express.Router();
-const {  Products } = require('../db')
-const { uploadImages, deleteImages } = require('../functions/cloudinary')
+const {  Products, Carts } = require('../db')
+const { uploadImages, deleteImages } = require('../functions/cloudinary');
+const getAvailable = require('../functions/available');
 
 router.post('/', async (req, res) => {
     const { product_name, category, product_description, quantity, price, product_images } = req.body;
@@ -133,6 +134,28 @@ router.delete('/:productId', async (req, res) => {
         })
     } catch (error) {
 
+    }
+})
+
+router.get('/availabe/:cartId' , async(req,res)=>{
+    const cartId = req.params.cartId
+    try {
+        const cart = await Carts.findOne({_id : cartId});
+        if(!cart) {
+            return res.status(404).json({
+                message : 'No active cart'
+            })
+        }
+        const {availableCount , available , notAvailable} = getAvailable(cart.items)
+        res.status(200).json({
+            availableCount,
+            available,
+            notAvailable
+        })
+    } catch (error) {
+        res.status(500).json({
+            message : 'Something went wrong'
+        })
     }
 })
 
