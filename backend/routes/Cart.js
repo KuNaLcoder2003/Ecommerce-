@@ -1,15 +1,22 @@
 const express = require('express');
 const authMiddleware = require('../middlewares/auth');
-const {  Carts } = require('../db');
+const { Carts } = require('../db');
+const getAvailable = require('../functions/available');
 const router = express.Router();
+
+
+router.get('/available' , async(req,res)=>{
+    const {items}  = req.body;
+    const {availableCount , available , notAvailable} = await getAvailable(items)
+    console.log(available , availableCount , notAvailable)
+})
 
 router.post('/add', async (req, res) => {
     const userId = '67c208f6735b16e10218e8ac';
     const { itemToAdd  } = req.body;
 
     try {
-        
-        
+    
         const cart = await Carts.findOne({ userId: userId, checked_out: false });
         // const user = await Users.findOne({_id : userId , carts : {$elemMatch : {checkout : false}}})
         
