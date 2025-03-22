@@ -5,6 +5,8 @@ import Cards from '../components/Cards'
 import Header from '../components/Header'
 import Hero from '../components/Hero'
 import { motion } from 'framer-motion'
+import ShopWhy from '../components/ShopWhy'
+import LandingPageOffer from '../components/LandingPageOffer'
 
 const LandingPage = () => {
   return (
@@ -58,6 +60,10 @@ const LandingPage = () => {
       </motion.div>
 
       <Banners />
+
+      <ShopWhy/>
+
+      <LandingPageOffer/>
     </div>
   )
 }
