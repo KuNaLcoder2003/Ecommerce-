@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const AuthPage = () => {
+const AuthPage = ({type = "login"}) => {
     return (
         <div>
             <div className="flex min-h-screen items-center justify-center bg-gray-100">
