@@ -1,5 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 
 let arr = [
   {
@@ -24,6 +25,8 @@ let arr = [
 ]
 
 const Hero = () => {
+
+  const navigate = useNavigate();
   return (
   
 
@@ -45,7 +48,7 @@ const Hero = () => {
             <h1 className="text-2xl md:text-4xl font-bold text-black">{obj.heading}</h1>
             <p className="text-stone-700 text-sm md:text-lg">{obj.desc}</p>
             <p className="text-lg md:text-xl font-semibold text-black">{obj.price}</p>
-            <button className="w-32 md:w-40 py-2 md:py-3 text-white bg-black rounded-md hover:bg-white hover:text-black border-2 border-gray-600 transition">
+            <button onClick={()=>navigate('/auth')} className="w-32 md:w-40 py-2 md:py-3 text-white bg-black rounded-md hover:bg-white hover:text-black border-2 border-gray-600 transition">
               Shop Now
             </button>
           </div>

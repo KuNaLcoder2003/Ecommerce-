@@ -1,15 +1,18 @@
 import { Repeat, ShoppingBag, Star } from 'lucide-react';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const BestSellerCard = ({ url }) => {
   const [sideBar, setSideBar] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div 
       onMouseEnter={() => setSideBar(true)} 
       onMouseLeave={() => setSideBar(false)} 
       className='relative min-w-[40%] sm:min-w-[20%] p-2'
+      onClick={()=>navigate('/auth')}
     >
       {/* Product Image */}
       <div className='h-[300px] sm:h-[350px] w-full rounded-md overflow-hidden'>

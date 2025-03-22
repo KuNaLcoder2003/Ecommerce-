@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { ShoppingCart, Menu } from 'lucide-react';
+
 const Header = () => {
+
 
   const [isSideMenuOpen, setMenu] = useState(false);
 

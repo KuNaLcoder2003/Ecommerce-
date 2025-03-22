@@ -1,8 +1,10 @@
 import React from 'react'
 import { ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 
 const Banners = () => {
+    const navigate = useNavigate();
     return (
         <div className='w-[88%] m-auto p-[0.8rem] flex items-center gap-[15px]'>
             <motion.div
@@ -25,7 +27,7 @@ const Banners = () => {
 
                     {/* Shop Now Button */}
                     <div className="absolute bottom-6 flex items-center gap-2 cursor-pointer font-semibold transition-transform duration-300 group-hover:translate-x-1 text-black">
-                        <p>Shop Now</p>
+                        <p onClick={()=>navigate('/auth')} >Shop Now</p>
                         <ArrowRight />
                     </div>
                 </div>
