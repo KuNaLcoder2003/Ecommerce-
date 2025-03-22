@@ -25,7 +25,7 @@ const Header = () => {
 
   return (
     <main>
-      <nav className="flex justify-between px-8 items-center py-6   ">
+      <nav className="flex justify-between px-8 items-center py-6">
         <div className="flex items-center gap-8">
           <section className="flex items-center gap-4">
             {/* menu */}
@@ -53,7 +53,7 @@ const Header = () => {
         {/* fixed h-full w-screen lg:hidden bg-black/50  backdrop-blur-sm top-0 right-0  -translate-x-full  transition-all */}
         {/* isSideMenuOpen && "translate-x-0" */}
         <div
-          className={`fixed h-full w-screen lg:hidden bg-black/50  backdrop-blur-sm top-0 right-0  -translate-x-full  transition-all ${isSideMenuOpen && "translate-x-0"}`}
+          className={`z-20 fixed h-full w-screen lg:hidden bg-black/50  backdrop-blur-sm top-0 right-0  -translate-x-full  transition-all ${isSideMenuOpen && "translate-x-0"}`}
         >
           <section className="text-black bg-white flex-col absolute left-0 top-0 h-screen p-8 gap-8 z-50 w-56 flex  ">
             <Menu
