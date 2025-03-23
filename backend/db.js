@@ -34,6 +34,9 @@ const User_Schema = new mongoose.Schema({
         type: String,
         required: true
     },
+    avatar : {
+        type : String,
+    },
     carts: [{
         cartId: {
             type: mongoose.Schema.Types.ObjectId,
