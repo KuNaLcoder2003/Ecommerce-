@@ -7,6 +7,7 @@ import Hero from '../components/Hero'
 import { motion } from 'framer-motion'
 import ShopWhy from '../components/ShopWhy'
 import LandingPageOffer from '../components/LandingPageOffer'
+import Discover from '../components/Discover'
 
 const LandingPage = () => {
   return (
@@ -64,6 +65,7 @@ const LandingPage = () => {
       <ShopWhy/>
 
       <LandingPageOffer/>
+      <Discover/>
     </div>
   )
 }
