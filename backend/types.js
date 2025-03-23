@@ -7,6 +7,7 @@ const signup_schema = zod.object({
     username : zod.string().email(),
     password : zod.string(),
     role : zod.string(),
+    
 })
 
 const signin_schema = zod.object({
