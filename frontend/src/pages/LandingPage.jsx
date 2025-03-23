@@ -8,6 +8,7 @@ import { motion } from 'framer-motion'
 import ShopWhy from '../components/ShopWhy'
 import LandingPageOffer from '../components/LandingPageOffer'
 import Discover from '../components/Discover'
+import Footer from '../components/Footer'
 
 const LandingPage = () => {
   return (
@@ -66,6 +67,7 @@ const LandingPage = () => {
 
       <LandingPageOffer/>
       <Discover/>
+      <Footer/>
     </div>
   )
 }
