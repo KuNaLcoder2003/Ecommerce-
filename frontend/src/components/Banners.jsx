@@ -27,7 +27,7 @@ const Banners = () => {
 
                     {/* Shop Now Button */}
                     <div className="absolute bottom-6 flex items-center gap-2 cursor-pointer font-semibold transition-transform duration-300 group-hover:translate-x-1 text-black">
-                        <p onClick={()=>navigate('/auth')} >Shop Now</p>
+                        <p onClick={()=>navigate('/signin')} >Shop Now</p>
                         <ArrowRight />
                     </div>
                 </div>

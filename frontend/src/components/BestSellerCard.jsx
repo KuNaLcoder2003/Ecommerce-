@@ -12,7 +12,7 @@ const BestSellerCard = ({ url }) => {
       onMouseEnter={() => setSideBar(true)} 
       onMouseLeave={() => setSideBar(false)} 
       className='relative min-w-[40%] sm:min-w-[20%] p-2'
-      onClick={()=>navigate('/auth')}
+      onClick={()=>navigate('/signin')}
     >
       {/* Product Image */}
       <div className='h-[300px] sm:h-[350px] w-full rounded-md overflow-hidden'>

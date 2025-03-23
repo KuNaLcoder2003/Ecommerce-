@@ -1,8 +1,28 @@
-import React, { useState } from 'react'
-import { ShoppingCart, Menu } from 'lucide-react';
+import React, { useEffect, useState } from 'react'
+import { ShoppingCart, Menu, User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-const Header = () => {
+const Header = ({isLoggedIn , setIsLoggedIn}) => {
 
+  const [url , setUrl] = useState('')
+  const navigate = useNavigate()
+
+  useEffect(()=>{
+    if(isLoggedIn){
+      fetch('http://localhost:3000/api/v1/user/details', {
+        method : 'GET',
+        headers : {
+          authorization : localStorage.getItem('token'),
+          'Content-type' : 'application/json'
+        }
+      }).then(async(res)=>{
+        const data = await res.json();
+        if(data.user){
+          setUrl(data.user.avatar)
+        }
+      })
+    }
+  } , [])
 
   const [isSideMenuOpen, setMenu] = useState(false);
 
@@ -75,16 +95,23 @@ const Header = () => {
         <section className="flex items-center gap-8">
           {/* cart icon */}
           <ShoppingCart className="text-3xl" />
-          <img
+          {
+            isLoggedIn ? <img
             width={40}
             height={40}
             className="h-8 w-8 rounded-full "
-            src="https://i.pravatar.cc/150?img=52"
-            alt="avatar-img"
-          />
+            src={url}
+            alt="avatar-img"/>  : <User size={20}/>
+          }
+          
           {/* avtar img */}
 
-          <button className='border border-stone-500 py-[5px] px-[10px] rounded-md text-lg hover:bg-red-400 hover:border-white hover:text-white text-center font-bold'>Logout</button>
+          <button onClick={()=>{
+            localStorage.removeItem('token');
+            setIsLoggedIn(false)
+            navigate('/signin')
+
+          }} className='border border-stone-500 py-[5px] px-[10px] rounded-md text-lg hover:bg-red-400 hover:border-white hover:text-white text-center font-bold'>Logout</button>
         </section>
       </nav>
       <hr className=" " />

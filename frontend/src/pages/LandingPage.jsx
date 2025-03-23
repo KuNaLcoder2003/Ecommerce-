@@ -10,10 +10,12 @@ import LandingPageOffer from '../components/LandingPageOffer'
 import Discover from '../components/Discover'
 import Footer from '../components/Footer'
 
-const LandingPage = () => {
+const LandingPage = ({isLoggedIn , setIsLoggedIn}) => {
+
+  
   return (
     <div className="w-full overflow-hidden">
-      <Header />
+      <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <Hero />
       <Cards />
 
