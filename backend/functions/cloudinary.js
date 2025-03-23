@@ -10,6 +10,18 @@ cloudinary.config({
 
 // promise -> resolve or reject 
 
+const upload = async(url , name)=>{
+    try {
+        const res = await cloudinary.uploader.upload(url , {
+            public_id : `image_${name}`
+        })
+        return res;
+    } catch (error) {
+        console.log(error)
+        return null;
+    }
+}
+
 const uploadImages = async (urls , product_name) => {
     try {
         
@@ -54,6 +66,7 @@ const deleteImages = async(urls)=>{
 
 module.exports = {
     uploadImages,
-    deleteImages
+    deleteImages,
+    upload
 };
 
