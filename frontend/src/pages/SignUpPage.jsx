@@ -30,7 +30,7 @@ const SignUpPage = ({setLoggedIn}) => {
         formData.append("avatar", userData.avatar); // Append file
        
         try {
-            fetch('https://ksecombe.onrender.com/signup', {
+            fetch('https://ksecombe.onrender.com/api/v1/user/signup', {
                 method: 'POST',
                 body: formData
             }).then(async (res) => {
