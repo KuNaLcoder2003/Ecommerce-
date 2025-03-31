@@ -113,9 +113,9 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => {
           {/* avtar img */}
 
           <button onClick={() => {
+            navigate('/signin')
             localStorage.removeItem('token');
             setIsLoggedIn(false)
-            navigate('/signin')
 
           }} className='border border-stone-500 py-[5px] px-[10px] rounded-md text-lg hover:bg-red-400 hover:border-white hover:text-white text-center font-bold'>Logout</button>
         </section>
