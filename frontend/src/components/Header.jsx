@@ -2,27 +2,28 @@ import React, { useEffect, useState } from 'react'
 import { ShoppingCart, Menu, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const Header = ({isLoggedIn , setIsLoggedIn}) => {
+const Header = ({ isLoggedIn, setIsLoggedIn }) => {
 
-  const [url , setUrl] = useState('')
+  const [url, setUrl] = useState('')
   const navigate = useNavigate()
+  const [searchValue, setSearchValue] = useState("");
 
-  useEffect(()=>{
-    if(isLoggedIn){
-      fetch('http://localhost:3000/api/v1/user/details', {
-        method : 'GET',
-        headers : {
-          authorization : localStorage.getItem('token'),
-          'Content-type' : 'application/json'
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetch('https://ksecombe.onrender.com/api/v1/user/details', {
+        method: 'GET',
+        headers: {
+          authorization: localStorage.getItem('token'),
+          'Content-type': 'application/json'
         }
-      }).then(async(res)=>{
+      }).then(async (res) => {
         const data = await res.json();
-        if(data.user){
+        if (data.user) {
           setUrl(data.user.avatar)
         }
       })
     }
-  } , [])
+  }, [])
 
   const [isSideMenuOpen, setMenu] = useState(false);
 
@@ -91,22 +92,27 @@ const Header = ({isLoggedIn , setIsLoggedIn}) => {
           </section>
         </div>
 
+        <div className='flex w-full max-w-sm'>
+          <input className='flex-[2] p-3 rounded-l-md border border-gray-300 w-[70%]' placeholder='search products...' value={searchValue} onChange={(e)=>setSearchValue(e.target.value)} />
+          <button className='px-4 py-3 bg-black text-white rounded-r-md'>Search</button>
+        </div>
+
         {/* last section */}
         <section className="flex items-center gap-8">
           {/* cart icon */}
-          <ShoppingCart className="text-3xl" />
+          <ShoppingCart className="text-3xl cursor-pointer"  />
           {
             isLoggedIn ? <img
-            width={40}
-            height={40}
-            className="h-8 w-8 rounded-full "
-            src={url}
-            alt="avatar-img"/>  : <User size={20}/>
+              width={40}
+              height={40}
+              className="h-8 w-8 rounded-full "
+              src={url}
+              alt="avatar-img" /> : <User size={20} />
           }
-          
+
           {/* avtar img */}
 
-          <button onClick={()=>{
+          <button onClick={() => {
             localStorage.removeItem('token');
             setIsLoggedIn(false)
             navigate('/signin')
