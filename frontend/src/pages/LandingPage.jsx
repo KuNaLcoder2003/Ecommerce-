@@ -13,6 +13,8 @@ import Footer from '../components/Footer'
 const LandingPage = ({isLoggedIn , setIsLoggedIn}) => {
 
   
+
+  
   return (
     <div className="w-full overflow-hidden">
       <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />

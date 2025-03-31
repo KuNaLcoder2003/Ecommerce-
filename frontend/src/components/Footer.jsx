@@ -91,7 +91,7 @@ const Footer = () => {
 
         // </div>
 
-        <div className='flex flex-col w-full mt-12 bg-slate-100 p-8 gap-[5rem]'>
+        <div className='flex flex-col w-full mt-12 bg-slate-100 p-8 gap-[5rem] overflow-hidden'>
             {/* Part 1 */}
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center lg:text-left w-full'>
                 {/* Company Info */}

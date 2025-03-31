@@ -65,7 +65,7 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => {
             <p
               key={i}
               className="hidden lg:block text-gray-400 hover:text-black cursor-pointer"
-              href={d.link}
+              onClick={()=>navigate('/collections')}
             >
               {d.labe}
             </p>
@@ -85,17 +85,17 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => {
             />
 
             {navlinks.map((d, i) => (
-              <p key={i} className="font-bold" href={d.link}>
+              <p key={i} className="font-bold" onClick={()=>navigate('/collections')}>
                 {d.labe}
               </p>
             ))}
           </section>
         </div>
 
-        <div className='flex w-full max-w-sm'>
-          <input className='flex-[2] p-3 rounded-l-md border border-gray-300 w-[70%]' placeholder='search products...' value={searchValue} onChange={(e)=>setSearchValue(e.target.value)} />
+        {/* <div className='flex w-full max-w-sm'>
+          <input className='flex-[2] p-3 rounded-l-md border border-gray-300' placeholder='search products...' value={searchValue} onChange={(e)=>setSearchValue(e.target.value)} />
           <button className='px-4 py-3 bg-black text-white rounded-r-md'>Search</button>
-        </div>
+        </div> */}
 
         {/* last section */}
         <section className="flex items-center gap-8">

@@ -6,6 +6,7 @@ import LandingPage from './pages/LandingPage'
 import SignInPage from './pages/SignInPage'
 import SignUpPage from './pages/SignUpPage'
 import { useEffect, useState } from 'react'
+import ProductsTypes from './pages/ProductsTypes'
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
       <Route path='/' element={loggedIn ? <LandingPage isLoggedIn={loggedIn} setIsLoggedIn={setIsLoggedIn} /> : <SignInPage/>} />
       <Route path='/signin' element={<SignInPage setLoggedIn={setIsLoggedIn} />} />
       <Route path='/signup' element={<SignUpPage setLoggedIn={setIsLoggedIn} />} />
+      <Route path='/collections' element={loggedIn ? <ProductsTypes/> : <SignInPage  setLoggedIn={setIsLoggedIn}/>} />
     </Routes>
 
     
