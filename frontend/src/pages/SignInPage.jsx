@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import toast, { Toaster } from 'react-hot-toast';
 
-const SignInPage = ({setLoggedIn}) => {
+const SignInPage = ({setIsLoggedIn}) => {
     const [userData , setUserData] = useState({
         username : '',
         password : '',
@@ -28,8 +28,8 @@ const SignInPage = ({setLoggedIn}) => {
                     if (data.token) {
                         localStorage.setItem('token', `Bearer ${data.token}`)
                         navigate('/')
+                        setIsLoggedIn();
                         toast.success(data.message)
-                        setLoggedIn(true)
                     } else {
                         toast.error(data.message);
                     }

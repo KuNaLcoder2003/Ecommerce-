@@ -21,11 +21,12 @@ function App() {
       setIsLoggedIn(false);
     }
   } , [])
+
   return (
 
     <Routes>
       <Route path='/' element={loggedIn ? <LandingPage isLoggedIn={loggedIn} setIsLoggedIn={setIsLoggedIn} /> : <SignInPage/>} />
-      <Route path='/signin' element={<SignInPage setLoggedIn={setIsLoggedIn} />} />
+      <Route path='/signin' element={<SignInPage setIsLoggedIn={setIsLoggedIn} />} />
       <Route path='/signup' element={<SignUpPage setLoggedIn={setIsLoggedIn} />} />
       <Route path='/collections' element={loggedIn ? <ProductsTypes/> : <SignInPage  setLoggedIn={setIsLoggedIn}/>} />
     </Routes>
