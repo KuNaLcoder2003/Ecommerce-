@@ -27,9 +27,9 @@ const SignInPage = ({setLoggedIn}) => {
                     const data = await res.json();
                     if (data.token) {
                         localStorage.setItem('token', `Bearer ${data.token}`)
+                        navigate('/')
                         toast.success(data.message)
                         setLoggedIn(true)
-                        navigate('/')
                     } else {
                         toast.error(data.message);
                     }
