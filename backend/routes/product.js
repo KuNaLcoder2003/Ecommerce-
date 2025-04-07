@@ -3,59 +3,67 @@ const isAdmin = require('../middlewares/isAdmin')
 const authMiddleware = require('../middlewares/auth')
 const { products_schema } = require('../types')
 const router = express.Router();
-const {  Products, Carts } = require('../db')
-const { uploadImages, deleteImages } = require('../functions/cloudinary');
+const { Products, Carts } = require('../db')
 const getAvailable = require('../functions/available');
+const upload = require('../uploads/multer');
+const cloudinary = require('../functions/cloudinary')
+const fs = require('fs');
+const dotenv = require('dotenv');
+dotenv.config();
 
-router.post('/', async (req, res) => {
-    const { product_name, category, product_description, quantity, price, product_images } = req.body;
-    const userId = req.userId;
-    const role = req.role
+router.post('/',isAdmin ,  upload.array("image"), async (req, res) => {
+    const { product_name, category, product_description, quantity, price } = req.body;
+    // const product_images = req.files;
+    const uploader = async(path) => {
+        return await cloudinary.uploads(path , 'Images')
+    }
     try {
-        const { success } = products_schema.safeParse({
-            product_name,
-            category,
-            product_description,
-            quantity,
-            price,
-            product_images
+
+        const {success} = products_schema.safeParse({
+            roduct_name,
+                category ,
+                product_description,
+                quantity ,
+                price ,
+                product_images,
+
         })
 
-
-        if (!success) {
-
-            return res.status(403).json({
-                message: 'Insufficient information',
+        if(!success){
+            return res.status(400).json({
+                done : false,
+                message : 'Invalid input type'
             })
         }
+        let urls = [];
+        
+        for(const file of req.files){
+            const {path} = file;
+            console.log(path);
 
-        const result = await uploadImages(product_images, product_name)
-        console.log(result)
+            const newPath = await uploader(path)
+            // console.log(newPath);
 
-        let arr = result.map((obj) => {
-            return { url: obj.url, public_id: obj.public_id }
+            urls.push(newPath)
+            fs.unlinkSync(path);
+        }
+        const new_product = new Products({
+            product_name : product_name,
+            product_description : product_description,
+            price : price,
+            category : category,
+            quantity : quantity,
+            product_images : urls,
         })
-        console.log(arr);
-        const product = new Products({
-            product_name,
-            category,
-            product_description,
-            quantity,
-            price,
-            product_images: arr
+        await new_product.save();
+        res.status(200).json({
+            message : 'Product Added successfully',
+            data : new_product
         })
-
-        await product.save();
-
-
-        return res.status(200).json({
-            message: 'Successfully added a new product'
-        })
-
     } catch (error) {
-
+        console.log(error);
         res.status(500).json({
-            message: 'Something went wrong'
+            message : 'Something went wrong'
         })
     }
 })
@@ -137,16 +145,16 @@ router.delete('/:productId', async (req, res) => {
     }
 })
 
-router.get('/availabe/:cartId' , async(req,res)=>{
+router.get('/availabe/:cartId', async (req, res) => {
     const cartId = req.params.cartId
     try {
-        const cart = await Carts.findOne({_id : cartId});
-        if(!cart) {
+        const cart = await Carts.findOne({ _id: cartId });
+        if (!cart) {
             return res.status(404).json({
-                message : 'No active cart'
+                message: 'No active cart'
             })
         }
-        const {availableCount , available , notAvailable} = getAvailable(cart.items)
+        const { availableCount, available, notAvailable } = getAvailable(cart.items)
         res.status(200).json({
             availableCount,
             available,
@@ -154,10 +162,14 @@ router.get('/availabe/:cartId' , async(req,res)=>{
         })
     } catch (error) {
         res.status(500).json({
-            message : 'Something went wrong'
+            message: 'Something went wrong'
         })
     }
 })
+
+// router.use((req , res , err , next) => {
+//     console.log(err);
+// })
 
 
 module.exports = router
