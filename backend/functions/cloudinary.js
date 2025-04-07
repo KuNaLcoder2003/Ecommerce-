@@ -18,7 +18,7 @@ exports.uploads = async (file , folder)=>{
         })
         return {
             url : result.secure_url,
-            id : result.public_id,
+            public_id : result.public_id,
         }
     } catch (error) {
         console.error("Cloudinary Upload Error:", error);
