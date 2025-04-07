@@ -11,34 +11,55 @@ const fs = require('fs');
 const dotenv = require('dotenv');
 dotenv.config();
 
-router.post('/',isAdmin ,  upload.array("image"), async (req, res) => {
+
+router.get('/all' , isAdmin , async(req,res)=>{
+
+    try {
+        const products = await Products.find();
+        if(products.length == 0) {
+            return res.status(200).json({
+                message : 'No products yet , add one'
+            })
+        }
+        res.status(200).json({
+            products : products
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            message : 'Something went wrong'
+        })
+    }
+})
+
+router.post('/', isAdmin, upload.array("image"), async (req, res) => {
     const { product_name, category, product_description, quantity, price } = req.body;
     // const product_images = req.files;
-    const uploader = async(path) => {
-        return await cloudinary.uploads(path , 'Images')
+    const uploader = async (path) => {
+        return await cloudinary.uploads(path, 'Images')
     }
     try {
 
-        const {success} = products_schema.safeParse({
-            roduct_name,
-                category ,
-                product_description,
-                quantity ,
-                price ,
-                product_images,
+        // const { success } = products_schema.safeParse({
+        //     product_name,
+        //     category,
+        //     product_description,
+        //     quantity,
+        //     price,
+        //     product_images : req.files,
 
-        })
+        // })
 
-        if(!success){
-            return res.status(400).json({
-                done : false,
-                message : 'Invalid input type'
-            })
-        }
+        // if (!success) {
+        //     return res.status(400).json({
+        //         done: false,
+        //         message: 'Invalid input type'
+        //     })
+        // }
         let urls = [];
-        
-        for(const file of req.files){
-            const {path} = file;
+
+        for (const file of req.files) {
+            const { path } = file;
             console.log(path);
 
             const newPath = await uploader(path)
@@ -48,22 +69,22 @@ router.post('/',isAdmin ,  upload.array("image"), async (req, res) => {
             fs.unlinkSync(path);
         }
         const new_product = new Products({
-            product_name : product_name,
-            product_description : product_description,
-            price : price,
-            category : category,
-            quantity : quantity,
-            product_images : urls,
+            product_name: product_name,
+            product_description: product_description,
+            price: price,
+            category: category,
+            quantity: quantity,
+            product_images: urls,
         })
         await new_product.save();
         res.status(200).json({
-            message : 'Product Added successfully',
-            data : new_product
+            message: 'Product Added successfully',
+            data: new_product
         })
     } catch (error) {
         console.log(error);
         res.status(500).json({
-            message : 'Something went wrong'
+            message: 'Something went wrong'
         })
     }
 })
@@ -167,9 +188,7 @@ router.get('/availabe/:cartId', async (req, res) => {
     }
 })
 
-// router.use((req , res , err , next) => {
-//     console.log(err);
-// })
+
 
 
 module.exports = router
