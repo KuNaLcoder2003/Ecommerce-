@@ -10,63 +10,19 @@ cloudinary.config({
 
 // promise -> resolve or reject 
 
-const upload = async(url , name)=>{
+exports.uploads = async (file , folder)=>{
     try {
-        const res = await cloudinary.uploader.upload(url , {
-            public_id : `image_${name}`
+        const result = await cloudinary.uploader.upload(file , {
+            resource_type : "auto",
+            folder : folder
         })
-        return res;
+        return {
+            url : result.secure_url,
+            id : result.public_id,
+        }
     } catch (error) {
-        console.log(error)
-        return null;
+        console.error("Cloudinary Upload Error:", error);
+        throw error;
     }
 }
-
-const uploadImages = async (urls , product_name) => {
-    try {
-        
-        const result = await Promise.all(
-            urls.map(async(obj , index)=>{
-                try {
-                    const result = await cloudinary.uploader.upload(obj.url, {
-                      public_id: `image_${index}_${product_name}`
-                    });
-                    
-                    return result;
-                  } catch (error) {
-                    return null; 
-                  }
-            })
-        )
-        return result;
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-const deleteImages = async(urls)=>{
-    try {
-        const result = await Promise.all(
-            urls.map(async(obj)=>{
-                try {
-                    const result = await cloudinary.uploader.destroy(obj.public_id)
-                    return result;
-                } catch (error) {
-                    console.log(error)
-                    return null
-                }
-            })
-        )
-        return result
-    } catch (error) {
-        console.log(error)
-        return []
-    }
-}
-
-module.exports = {
-    uploadImages,
-    deleteImages,
-    upload
-};
 
