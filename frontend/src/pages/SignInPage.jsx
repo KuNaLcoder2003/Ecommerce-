@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import toast, { Toaster } from 'react-hot-toast';
 
-const SignInPage = ({setIsLoggedIn}) => {
+
+const SignInPage = ({setIsLoggedIn , setIsAdmin}) => {
     const [userData , setUserData] = useState({
         username : '',
         password : '',
@@ -27,8 +28,14 @@ const SignInPage = ({setIsLoggedIn}) => {
                     const data = await res.json();
                     if (data.token) {
                         localStorage.setItem('token', `Bearer ${data.token}`)
-                        navigate('/')
-                        setIsLoggedIn();
+                        localStorage.setItem('role' , data.role)
+                        setIsLoggedIn(true);
+                        if(data.role == 'Admin'){
+                            setIsAdmin(true);
+                            navigate('/admin')
+                        }else{
+                            navigate('/')
+                        }
                         toast.success(data.message)
                     } else {
                         toast.error(data.message);

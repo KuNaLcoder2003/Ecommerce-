@@ -115,6 +115,7 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => {
           <button onClick={() => {
             navigate('/signin')
             localStorage.removeItem('token');
+            localStorage.removeItem('role');
             setIsLoggedIn(false)
 
           }} className='border border-stone-500 py-[5px] px-[10px] rounded-md text-lg hover:bg-red-400 hover:border-white hover:text-white text-center font-bold'>Logout</button>
